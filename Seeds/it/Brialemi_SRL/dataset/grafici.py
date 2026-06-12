@@ -100,6 +100,9 @@ class Grafici:
         '''
         Elbow Method per scegliere il numero ottimale di cluster.
         '''
+        # drop class se presente, altrimenti KMeans si confonde
+        if "classe" in data.columns:
+            data = data.drop(columns=["classe"])
 
         data = data.drop(columns=['classe'])
 

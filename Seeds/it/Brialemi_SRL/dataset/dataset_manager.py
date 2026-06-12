@@ -82,9 +82,6 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
     def clean(self):
         self.__dftrain = self.__data_ana.clean_data(self.__dftrain)
 
-    def pca_data(self):
-        self.__dftrain = self.__data_ana.pca(self.__dftrain)
-
     def stampa(self):
         print(self.__dftrain)
 

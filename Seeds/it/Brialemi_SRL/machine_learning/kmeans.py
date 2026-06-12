@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, rand_score
+from it.Brialemi_SRL.dataset.dataset_analisi import DatasetAnalisi 
 
 
 class Kmeans:
@@ -30,7 +31,10 @@ class Kmeans:
             scaler = StandardScaler()
             X_scaled = scaler.fit_transform(X)
         else:
-            X_scaled = X.values
+            # faimo PCA con 3 componenti principali (o un numero a scelta) e standardizziamo i dati prima di applicare KMeans 
+            data_ana = DatasetAnalisi()
+            pca_results = data_ana.pca(X, n_components=2, standardize=True)
+            X_scaled = pca_results["scores"]
 
         # Modello KMeans
         model = KMeans(
@@ -43,11 +47,11 @@ class Kmeans:
         y_pred = model.fit_predict(X_scaled)
 
         self.model = model
-        self.scaler = scaler
+        self.scaler = scaler if not self.use_pca else None
 
         # Valutazione
         self.val_model = {
-            "predizioni_cluster": y_pred.tolist(),
+            #"predizioni_cluster": y_pred.tolist(),
             "silhouette_score": silhouette_score(X_scaled, y_pred),
             "rand_index": rand_score(y, y_pred),
             "inertia": model.inertia_,

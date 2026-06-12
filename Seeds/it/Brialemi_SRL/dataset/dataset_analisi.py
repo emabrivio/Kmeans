@@ -58,24 +58,9 @@ class DatasetAnalisi:
 
 
     def correlazione(self, data):
-        risultato = []
-        for x in data.columns:
-            for y in data.columns:
-                risultato.append(f"corr {x} {y} : {self.crames_v(data[x], data[y])}")
-        return risultato
+        corr = data.corr(numeric_only=True)
+        return corr.to_dict()
 
-    def crames_v(self, x, y):
-        # si basa sul test del chi-quadrato
-        # misura associazione 2 var categoriche
-        confusion_matrix = pd.crosstab(x, y)
-        chi2 = chi2_contingency(confusion_matrix)[0]
-        n = confusion_matrix.sum().sum()
-        r, k = confusion_matrix.shape
-        phi2 = chi2 / n
-        phi2corr = max(0, phi2 - ((k-1)*(r-1)) / (n-1))
-        rcorr = r - ((r-1)**2)/(n-1)
-        kcorr = k - ((k-1)**2)/(n-1)
-        return np.sqrt(phi2corr/ min((kcorr - 1), (rcorr-1)))
 
     def normality(self, data, alpha=0.05):
         numeric_cols = data.select_dtypes(include=np.number).columns
@@ -124,7 +109,7 @@ class DatasetAnalisi:
             data,
             n_components=None, # da fissare una volta scelto il numero di componenti principali da
             standardize=True):
-        
+        data = data.drop(columns=["classe"], errors="ignore") # se c'è la colonna classe la tolgo, altrimenti ignoro l'errore
         X = data.select_dtypes(include=np.number).copy()
 
         if standardize:

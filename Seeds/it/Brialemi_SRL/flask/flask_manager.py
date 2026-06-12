@@ -16,8 +16,7 @@ class FlaskManager(object): # è una classe INTERFACCIA
         self.ds_mg = DatasetManager()
 
         self.ds_mg.clean()
-        #self.ds_mg.pca_data()
-        self.kmeans = Kmeans(self.ds_mg.get_datatrain())
+        self.kmeans = Kmeans(self.ds_mg.get_datatrain(), n_clusters=3, use_pca=True)
         # in questo modo sia il cleaning sia i modelli vengono stimati in automatico
 
     def run(self, **kwargs):
