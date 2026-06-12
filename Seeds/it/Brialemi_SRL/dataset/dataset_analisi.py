@@ -52,13 +52,8 @@ class DatasetAnalisi:
         # elimina caratteri strani
         # gestire nan 
         #data = data.replace('?', np.nan)
-        #data["stalk-root"]=data["stalk-root"].fillna(data["stalk-root"].mode()[0])
-        # data.loc[data["poisonous"].isin(["unknown edibility", "not recommended"]), "poisonous"] = "definitely poisonous"
 
-        # scaling per knn
-        data_scaled = StandardScaler().fit_transform(data)
-
-        return data_scaled
+        return data
 
 
 
