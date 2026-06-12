@@ -9,6 +9,7 @@ from it.Brialemi_SRL.dataset.dataset_manager import DatasetManager
 from it.Brialemi_SRL.machine_learning.regressione_logistica import RegLogistica
 from it.Brialemi_SRL.machine_learning.random_forest import RndForest
 from it.Brialemi_SRL.machine_learning.xg_boost import XgBoost
+from it.Brialemi_SRL.machine_learning.kmeans import Kmeans
 
 class FlaskManager(object): # è una classe INTERFACCIA
     def __init__(self):
@@ -18,9 +19,11 @@ class FlaskManager(object): # è una classe INTERFACCIA
         self.ds_mg = DatasetManager()
 
         self.ds_mg.clean()
+        #self.ds_mg.pca_data()
         self.reg_log = RegLogistica(self.ds_mg.get_datatrain())
         self.rnd_forest = RndForest(self.ds_mg.get_datatrain())
         self.xgb = XgBoost(self.ds_mg.get_datatrain())
+        self.kmeans = Kmeans(self.ds_mg.get_datatrain())
         # in questo modo sia il cleaning sia i modelli vengono stimati in automatico
 
     def run(self, **kwargs):
@@ -99,6 +102,10 @@ class FlaskManager(object): # è una classe INTERFACCIA
         @self.app.route('/valMod_XGboost')
         def valMod_XGboost():
             return jsonify(self.xgb.get_val())
+        
+        @self.app.route('/valMod_kmeans')
+        def valMod_kmeans():
+            return jsonify(self.kmeans.get_val())
 
         @self.app.route('/confronto_valutazioni')
         def confronto_valutazioni():
