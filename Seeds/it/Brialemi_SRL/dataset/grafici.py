@@ -101,6 +101,8 @@ class Grafici:
         Elbow Method per scegliere il numero ottimale di cluster.
         '''
 
+        data = data.drop(columns=['classe'])
+
         # standardizzazione
         scaler = StandardScaler()
         X_scaled = scaler.fit_transform(data)

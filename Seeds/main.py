@@ -17,7 +17,7 @@ ds_mg.stampa()
 print()
 
 print("Esplorazione del dataset")
-#print(ds_mg.analisi())
+print(ds_mg.analisi())
 print()
 
 print("Visualizzazione grafici")

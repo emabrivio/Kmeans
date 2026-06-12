@@ -7,7 +7,7 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
     def __init__(self):
 
         self.__dftrain = self.load_file(
-            "C:/Users/alisi/OneDrive/Documenti/GitHub/Kmeans/Seeds/seeds_dataset.txt",
+            "C:/Users/emanu/OneDrive/Documenti/GitHub/Kmeans/Seeds/seeds_dataset.txt",
             columns=[
             "area",
             "perimetro",
@@ -18,7 +18,7 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
             "lunghezza_solco", 
             "classe"]
         )
-
+        #C:/Users/emanu/OneDrive/Documenti/GitHub/Kmeans/Seeds/seeds_dataset.txt
         #self.__dftest = self.load_file(
         #    "C:/Users/alisi/OneDrive/Documenti/GitHub/Kmeans/Seeds/seeds_test.txt",
         #    columns=[
@@ -67,14 +67,16 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
         correlation = self.__grafici.plot_correlation(self.__dftrain) # impossibile fare su categorici
         pca = self.__data_ana.pca(self.__dftrain)
         grafico_pca = self.__grafici.plot_explained_variance(pca)
+        grafico_kmeans = self.__grafici.plot_elbow(self.__dftrain)
         list_hist = []
         for col in self.__dftrain.columns:
             hist = self.__grafici.plot_hist(self.__dftrain, col)
             list_hist.append(hist)
         return {
-            "correlation": correlation,
+            "correlation": correlation, 
             "hist": list_hist,
-            "PCA" : grafico_pca
+            "PCA" : grafico_pca,
+            "grafico_kmeans" : grafico_kmeans
         }
 
     def clean(self):
@@ -99,7 +101,6 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
         import json
         result = self.analisi()
         safe_result = self.make_json_safe(result)
-
         print(json.dumps(safe_result, indent=4, ensure_ascii=False))
 
     def make_json_safe(self, obj):
