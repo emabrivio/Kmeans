@@ -7,7 +7,7 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
     def __init__(self):
 
         self.__dftrain = self.load_file(
-            "C:/Users/emanu/OneDrive/Documenti/GitHub/Kmeans/Seeds/seeds_dataset.txt",
+            "C:/Users/alisi/OneDrive/Documenti/GitHub/Kmeans/Seeds/seeds_dataset.txt",
             columns=[
             "area",
             "perimetro",

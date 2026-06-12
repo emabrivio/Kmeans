@@ -23,7 +23,7 @@ print(ds_mg.analisi())
 print()
 
 print("Visualizzazione grafici")
-#ds_mg.grafici()
+ds_mg.grafici()
 print()
 
 print("pulisco dataset")
@@ -39,7 +39,7 @@ print("stampa dataset dopo cleaning")
 print()
 
 print("correlazione")
-#print(ds_mg.correlazione())
+print(ds_mg.correlazione())
 print()
 
 
