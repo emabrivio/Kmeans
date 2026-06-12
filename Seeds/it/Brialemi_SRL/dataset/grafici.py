@@ -8,7 +8,7 @@ class Grafici:
         fig = plt.figure(figsize=(10,6))
         sns.heatmap(corr, annot=True, cmap="coolwarm", fmt=".2f")
         plt.title("Matrice di correlazione")
-        #plt.show()
+        plt.show()
         return fig
 
     def plot_hist(self, data, col):
@@ -21,7 +21,7 @@ class Grafici:
             linewidth=2)
         
         plt.title(f"Distribuzione di {col}")
-        #plt.show()
+        plt.show()
 
         return fig
 
@@ -90,7 +90,7 @@ class Grafici:
         ax.legend()
         ax.grid(True)
         plt.tight_layout()
-        #plt.show()
+        plt.show()
 
         return fig
     
