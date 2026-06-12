@@ -6,9 +6,6 @@ from flask import Flask, jsonify, request, render_template_string
 import matplotlib.pyplot as plt
 
 from it.Brialemi_SRL.dataset.dataset_manager import DatasetManager
-from it.Brialemi_SRL.machine_learning.regressione_logistica import RegLogistica
-from it.Brialemi_SRL.machine_learning.random_forest import RndForest
-from it.Brialemi_SRL.machine_learning.xg_boost import XgBoost
 from it.Brialemi_SRL.machine_learning.kmeans import Kmeans
 
 class FlaskManager(object): # è una classe INTERFACCIA
@@ -20,9 +17,6 @@ class FlaskManager(object): # è una classe INTERFACCIA
 
         self.ds_mg.clean()
         #self.ds_mg.pca_data()
-        self.reg_log = RegLogistica(self.ds_mg.get_datatrain())
-        self.rnd_forest = RndForest(self.ds_mg.get_datatrain())
-        self.xgb = XgBoost(self.ds_mg.get_datatrain())
         self.kmeans = Kmeans(self.ds_mg.get_datatrain())
         # in questo modo sia il cleaning sia i modelli vengono stimati in automatico
 
@@ -91,116 +85,20 @@ class FlaskManager(object): # è una classe INTERFACCIA
         def correlazione():
             return jsonify(self.ds_mg.correlazione())
 
-        @self.app.route('/valMod_regLogistica')
-        def valMod_regLogistica():
-            return jsonify(self.reg_log.get_val())
-
-        @self.app.route('/valMod_rndForest')
-        def valMod_regLogisticaRndForest():
-            return jsonify(self.rnd_forest.get_val())
-
-        @self.app.route('/valMod_XGboost')
-        def valMod_XGboost():
-            return jsonify(self.xgb.get_val())
         
         @self.app.route('/valMod_kmeans')
         def valMod_kmeans():
             return jsonify(self.kmeans.get_val())
 
-        @self.app.route('/confronto_valutazioni')
-        def confronto_valutazioni():
-            modelli = {
-                "regressione_logistica": self.reg_log.get_val(),
-                "random_forest": self.rnd_forest.get_val(),
-                "xgboost": self.xgb.get_val()
-            }
-            # tabella principale (confronto accuracy)
-            tabella_accuracy = [
-                {
-                    "modello": nome,
-                    "accuracy": valori["accuracy"]
-                }
-                for nome, valori in modelli.items()
-            ]
-
-            # ordinamento per performance
-            tabella_accuracy = sorted(
-                tabella_accuracy,
-                key=lambda x: x["accuracy"],
-                reverse=True
-            )
-
-            migliore = tabella_accuracy[0]["modello"]
-
-            return jsonify({
-                "tabella_accuracy": tabella_accuracy,
-                "migliore": migliore,
-                "dettaglio_modelli": modelli
-            })
-
-        @self.app.route('/previsione_regLogistica', methods=['POST'])
-        def previsione_regLogistica():
-            data = request.get_json() 
-            obj = [
-                ('Pclass', data.get('Pclass')),
-                ('Sex', data.get('Sex')),
-                ('Age', data.get('Age')),
-                ('SibSp', data.get('SibSp')),
-                ('Parch', data.get('Parch')),
-                ('Fare', data.get('Fare')),
-                ('Embarked', data.get('Embarked'))
-            ]   # creando questo dizionario posso controllare che siano presenti tutti gli attributi necessari
-             
-            pred = self.reg_log.prevedi(obj)
-            print("PREDIZIONE:", pred)
-
-            return jsonify({"survived status": self.reg_log.prevedi(obj).tolist()})
-
-        @self.app.route('/previsione_rndForest', methods=['POST'])
-        def previsione_rndForest():
+        @self.app.route('/prevedi_kmeans', methods=['POST'])
+        def prevedi_kmeans():
             data = request.get_json()
-            obj = [
-                ('Pclass', data.get('Pclass')),
-                ('Sex', data.get('Sex')),
-                ('Age', data.get('Age')),
-                ('SibSp', data.get('SibSp')),
-                ('Parch', data.get('Parch')),
-                ('Fare', data.get('Fare')),
-                ('Embarked', data.get('Embarked'))
-            ]
-            return jsonify({"survived status": self.rnd_forest.prevedi(obj).tolist()})
+            osservazione = data.get("osservazione")
+            if osservazione is None:
+                return jsonify({"error": "Nessuna osservazione fornita"}), 400
 
-        @self.app.route('/previsione_xgboost', methods=['POST'])
-        def previsione_xgboost():
-            data = request.get_json()
-            obj = [
-                ('Pclass', data.get('Pclass')),
-                ('Sex', data.get('Sex')),
-                ('Age', data.get('Age')),
-                ('SibSp', data.get('SibSp')),
-                ('Parch', data.get('Parch')),
-                ('Fare', data.get('Fare')),
-                ('Embarked', data.get('Embarked'))
-            ]
-            return jsonify({"survived status": self.xgb.prevedi(obj).tolist()})
-
-        @self.app.route('/previsione_regLogistica_test')
-        def previsione_regLosgistica_test():
-            passId = self.ds_mg.get_datatest()["PassengerId"].copy()
-            cleanDf = self.ds_mg.clean_data(self.ds_mg.get_datatest())
-            ris = self.reg_log.prevedi_csv(passId, cleanDf)
-            return jsonify({"previsioni del dataset: ": ris})
-
-        @self.app.route('/previsione_rndForest_test')
-        def previsione_rndForest_test():
-            passId = self.ds_mg.get_datatest()["PassengerId"].copy()
-            cleanDf = self.ds_mg.clean_data(self.ds_mg.get_datatest())
-            ris = self.rnd_forest.prevedi_csv(passId, cleanDf)
-            return jsonify({"previsioni del dataset: ": ris})
-
-        @self.app.route('/previsione_xgboost_test')
-        def previsione_xgboost_test():
-            passId = self.ds_mg.get_datatest()["PassengerId"].copy()
-            cleanDf = self.ds_mg.clean_data(self.ds_mg.get_datatest())
-            ris = self.xgb.prevedi_csv(passId, cleanDf)
-            return jsonify({"previsioni del dataset: ": ris})
+            try:
+                predizione = self.kmeans.prevedi(osservazione)
+                return jsonify({"predizione_cluster": predizione.tolist()})
+            except Exception as e:
+                return jsonify({"error": str(e)}), 500

@@ -18,10 +18,10 @@ class Kmeans:
 
     def set_mod(self, dataset):
         # Target reale: usato solo per valutazione, NON per addestrare KMeans
-        y = dataset["Class"]
+        y = dataset["classe"]
 
         # Feature numeriche
-        X = dataset.drop(columns=["Class"])
+        X = dataset.drop(columns=["classe"])
 
         self.feature_columns = X.columns.tolist()
 
