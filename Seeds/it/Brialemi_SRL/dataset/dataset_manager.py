@@ -89,3 +89,27 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
     def get_datatest(self):
         return self.__dftest
 
+    def print_analisi(self):
+        import json
+        result = self.analisi()
+        safe_result = self.make_json_safe(result)
+
+        print(json.dumps(safe_result, indent=4, ensure_ascii=False))
+
+    def make_json_safe(self, obj):
+        import numpy as np
+        import pandas as pd
+        if isinstance(obj, dict):
+            return {str(k): self.make_json_safe(v) for k, v in obj.items()}
+        if isinstance(obj, list):
+            return [self.make_json_safe(x) for x in obj]
+        if isinstance(obj, pd.Series):
+            return self.make_json_safe(obj.to_dict())
+        if isinstance(obj, pd.DataFrame):
+            return obj.to_dict(orient="records")
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        return obj
+
