@@ -15,14 +15,15 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
             "lunghezza_kernel",
             "larghezza_kernel",
             "asimmetria",
-            "lunghezza_solco"]
-        )
-
-        self.__dftest = self.load_file(
-            "C:/Users/alisi/OneDrive/Documenti/GitHub/Kmeans/Seeds/seeds_test.txt",
-            columns=[
+            "lunghezza_solco", 
             "classe"]
         )
+
+        #self.__dftest = self.load_file(
+        #    "C:/Users/alisi/OneDrive/Documenti/GitHub/Kmeans/Seeds/seeds_test.txt",
+        #    columns=[
+        #    "classe"]
+        #)
 
         self.__data_ana = DatasetAnalisi()
         self.__grafici = Grafici()
@@ -80,7 +81,7 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
         self.__dftrain = self.__data_ana.clean_data(self.__dftrain)
 
     def pca_data(self):
-        return self.__data_ana.pca(self.__dftrain)
+        self.__dftrain = self.__data_ana.pca(self.__dftrain)
 
     def stampa(self):
         print(self.__dftrain)
@@ -91,8 +92,8 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
     def get_datatrain(self):
         return self.__dftrain
 
-    def get_datatest(self):
-        return self.__dftest
+   # def get_datatest(self):
+    #    return self.__dftest
 
     def print_analisi(self):
         import json
