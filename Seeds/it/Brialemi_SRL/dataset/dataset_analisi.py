@@ -55,27 +55,10 @@ class DatasetAnalisi:
         #data["stalk-root"]=data["stalk-root"].fillna(data["stalk-root"].mode()[0])
         # data.loc[data["poisonous"].isin(["unknown edibility", "not recommended"]), "poisonous"] = "definitely poisonous"
 
-        # colonna con valori tutti iguali per ogni riga
-        data = data.drop(columns=["Name","Ticket","Cabin","PassengerId"])
-        data["Age"]=data["Age"].fillna(data["Age"].median() + 0.5)
-        data["Fare"] = data["Fare"].fillna(data["Fare"].mean() + 0.5)
-        data["Sex"] = data["Sex"].map({
-        "female": 0,
-        "male": 1
-        })
+        # scaling per knn
+        data_scaled = StandardScaler().fit_transform(data)
 
-        data["Embarked"] = data["Embarked"].replace("nan", np.nan)
-        data["Embarked"] = data["Embarked"].fillna(data["Embarked"].mode()[0])
-        data["Embarked"] = data["Embarked"].map({
-        "S": "Southampton",
-        "C": "Cherbourg",
-        "Q": "Queenstown" })
-
-        # encoding colonne categoriche:
-        le = LabelEncoder()
-        data = pd.get_dummies(data, columns=["Embarked"], dtype=int)
-
-        return data
+        return data_scaled
 
 
 

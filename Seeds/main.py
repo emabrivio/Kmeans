@@ -39,7 +39,7 @@ print("stampa dataset dopo cleaning")
 print()
 
 print("correlazione")
-#print(ds_mg.correlazione())
+print(ds_mg.correlazione())
 print()
 
 

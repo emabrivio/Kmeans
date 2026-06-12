@@ -7,7 +7,7 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
     def __init__(self):
 
         self.__dftrain = self.load_file(
-            "C:/Users/emanu/OneDrive/Documenti/GitHub/Kmeans/Seeds/seeds_dataset.txt",
+            "C:/Users/alisi/OneDrive/Documenti/GitHub/Kmeans/Seeds/seeds_dataset.txt",
             columns=[
             "area",
             "perimetro",
@@ -15,7 +15,12 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
             "lunghezza_kernel",
             "larghezza_kernel",
             "asimmetria",
-            "lunghezza_solco",
+            "lunghezza_solco"]
+        )
+
+        self.__dftest = self.load_file(
+            "C:/Users/alisi/OneDrive/Documenti/GitHub/Kmeans/Seeds/seeds_test.txt",
+            columns=[
             "classe"]
         )
 
@@ -40,7 +45,7 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
         val_strani = self.__data_ana.valori_stringhe(self.__dftrain)
         outliers = self.outlier()
         norm = self.__data_ana.normality(self.__dftrain)
-        pca = None #self.__data_ana.pca(self.__dftrain) 
+        pca = self.__data_ana.pca(self.__dftrain) 
         return {
             "val_nan": val_nan,
             "val_strani": val_strani,
@@ -74,8 +79,8 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
     def clean(self):
         self.__dftrain = self.__data_ana.clean_data(self.__dftrain)
 
-    def clean_data(self, dataframe):
-        return self.__data_ana.clean_data(dataframe)
+    def pca_data(self):
+        return self.__data_ana.pca(self.__dftrain)
 
     def stampa(self):
         print(self.__dftrain)
