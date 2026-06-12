@@ -41,6 +41,7 @@ class Kmeans:
             n_clusters=self.n_clusters,
             random_state=42,
             n_init=10
+            
         )
 
         # Addestramento + predizione cluster
