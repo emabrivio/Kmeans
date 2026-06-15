@@ -24,8 +24,19 @@ class FlaskManager(object): # è una classe INTERFACCIA
 
     def __register_routes(self): # __ indica un metodo che vede solo questa classe
         @self.app.route('/') # in automatico il metodo è GET 
-        def home():
-            return "Flask online"
+        def index():
+            return jsonify({
+                'service': 'Kmeans API',
+                'version': '1.0.0',
+                'endpoints': {
+                    '/datasetshow': 'GET - Head dataset',
+                    '/info': 'GET - Statistiche descrittive',
+                    '/grafici': 'GET - Grafici di correlazione, distribuzioni e PCA',
+                    '/correlazione': 'GET - Matrice di correlazione',
+                    '/valMod_kmeans': 'GET - Kmeans',
+                    '/prevedi_kmeans': 'POST - Previsioni su file di test'   
+                    },
+            })
 
         @self.app.route('/datasetshow')
         def dataset_show():
