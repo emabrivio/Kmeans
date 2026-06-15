@@ -104,8 +104,6 @@ class Grafici:
         if "classe" in data.columns:
             data = data.drop(columns=["classe"])
 
-        data = data.drop(columns=['classe'])
-
         # standardizzazione
         scaler = StandardScaler()
         X_scaled = scaler.fit_transform(data)
