@@ -8,7 +8,6 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
     def __init__(self):
 
         self.__dftrain = self.load_file(
-            "C:/Users/emanu/OneDrive/Documenti/GitHub/Kmeans/Seeds/seeds_dataset.txt",
             columns=[
             "area",
             "perimetro",
@@ -30,7 +29,7 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
         self.__grafici = Grafici()
  
 
-    def load_file(self, path, columns=None, sep=r"\s+"):
+    def load_file(self, columns=None, sep=r"\s+"):
             return pd.read_csv(
                 Path(__file__).resolve().parents[3] / "seeds_dataset.txt",
                 sep=sep,
