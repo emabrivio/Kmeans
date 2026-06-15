@@ -2,6 +2,7 @@ import pandas as pd
 from ucimlrepo import fetch_ucirepo
 from it.Brialemi_SRL.dataset.dataset_analisi import DatasetAnalisi
 from it.Brialemi_SRL.dataset.grafici import Grafici
+from pathlib import Path
 
 class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa niente dal punto di vista di calcoli
     def __init__(self):
@@ -31,7 +32,7 @@ class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa nient
 
     def load_file(self, path, columns=None, sep=r"\s+"):
             return pd.read_csv(
-                path,
+                Path(__file__).resolve().parents[3] / "seeds_dataset.txt",
                 sep=sep,
                 header=None,
                 names=columns,
