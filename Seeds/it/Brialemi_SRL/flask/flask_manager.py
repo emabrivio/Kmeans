@@ -24,19 +24,8 @@ class FlaskManager(object): # è una classe INTERFACCIA
 
     def __register_routes(self): # __ indica un metodo che vede solo questa classe
         @self.app.route('/') # in automatico il metodo è GET 
-        def index():
-            return jsonify({
-                'service': 'Kmeans API',
-                'version': '1.0.0',
-                'endpoints': {
-                    '/datasetshow': 'GET - Head dataset',
-                    '/info': 'GET - Statistiche descrittive',
-                    '/grafici': 'GET - Grafici di correlazione, distribuzioni e PCA',
-                    '/correlazione': 'GET - Matrice di correlazione',
-                    '/valMod_kmeans': 'GET - Kmeans',
-                    '/prevedi_kmeans': 'POST - Previsioni su file di test'   
-                    },
-            })
+        def home():
+            return "Flask online"
 
         @self.app.route('/datasetshow')
         def dataset_show():
@@ -112,3 +101,21 @@ class FlaskManager(object): # è una classe INTERFACCIA
                 return jsonify({"predizione_cluster": predizione.tolist()})
             except Exception as e:
                 return jsonify({"error": str(e)}), 500
+            
+    
+        @self.app.route('/plot_kmeans')
+        def plot_kmeans():
+
+            img = self.kmeans.get_plot()
+
+            html = """
+            <h1>Grafico KMeans</h1>
+
+            <img src="data:image/png;base64,{{ img }}"
+            style="margin:10px;">
+            """
+
+            return render_template_string(
+            html,
+            img=img
+        )
