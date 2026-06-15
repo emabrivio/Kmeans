@@ -5,8 +5,8 @@ import pandas as pd
 from flask import Flask, jsonify, request, render_template_string
 import matplotlib.pyplot as plt
 
-from it.Brialemi_SRL.dataset.dataset_manager import DatasetManager
-from it.Brialemi_SRL.machine_learning.kmeans import Kmeans
+from Seeds.it.Brialemi_SRL.dataset.dataset_manager import DatasetManager
+from Seeds.it.Brialemi_SRL.machine_learning.kmeans import Kmeans
 
 class FlaskManager(object): # è una classe INTERFACCIA
     def __init__(self):

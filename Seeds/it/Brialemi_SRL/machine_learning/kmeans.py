@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score, rand_score
-from it.Brialemi_SRL.dataset.dataset_analisi import DatasetAnalisi 
+from Seeds.it.Brialemi_SRL.dataset.dataset_analisi import DatasetAnalisi 
 from io import BytesIO
 import base64
 import matplotlib.pyplot as plt

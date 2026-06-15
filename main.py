@@ -1,5 +1,5 @@
-from it.Brialemi_SRL.dataset.dataset_manager import DatasetManager
-from it.Brialemi_SRL.flask.flask_manager import FlaskManager
+from Seeds.it.Brialemi_SRL.dataset.dataset_manager import DatasetManager
+from Seeds.it.Brialemi_SRL.flask.flask_manager import FlaskManager
 
 
 app = FlaskManager()

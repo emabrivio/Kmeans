@@ -1,7 +1,7 @@
 import pandas as pd
 from ucimlrepo import fetch_ucirepo
-from it.Brialemi_SRL.dataset.dataset_analisi import DatasetAnalisi
-from it.Brialemi_SRL.dataset.grafici import Grafici
+from Seeds.it.Brialemi_SRL.dataset.dataset_analisi import DatasetAnalisi
+from Seeds.it.Brialemi_SRL.dataset.grafici import Grafici
 from pathlib import Path
 
 class DatasetManager: # è un classe CONTROLLER delle altre classi, non fa niente dal punto di vista di calcoli
